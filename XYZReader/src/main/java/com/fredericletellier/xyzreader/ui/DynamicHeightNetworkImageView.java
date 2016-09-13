@@ -1,12 +1,25 @@
 package com.fredericletellier.xyzreader.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 
 import com.android.volley.toolbox.NetworkImageView;
 
 public class DynamicHeightNetworkImageView extends NetworkImageView {
     private float mAspectRatio = 1.5f;
+    private int mErrorResId;
+
+    public interface ResponseObserver
+    {
+        public void onSuccess(Bitmap bm);
+    }
+
+    private ResponseObserver mObserver;
+
+    public void setResponseObserver(ResponseObserver observer) {
+        mObserver = observer;
+    }
 
     public DynamicHeightNetworkImageView(Context context) {
         super(context);
@@ -30,5 +43,11 @@ public class DynamicHeightNetworkImageView extends NetworkImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int measuredWidth = getMeasuredWidth();
         setMeasuredDimension(measuredWidth, (int) (measuredWidth / mAspectRatio));
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        mObserver.onSuccess(bm);
+        super.setImageBitmap(bm);
     }
 }

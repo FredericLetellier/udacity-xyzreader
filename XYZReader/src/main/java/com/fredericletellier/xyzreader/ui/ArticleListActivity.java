@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -138,7 +141,7 @@ public class ArticleListActivity extends ActionBarActivity implements
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             holder.dateView.setText(
@@ -148,6 +151,19 @@ public class ArticleListActivity extends ActionBarActivity implements
                             DateUtils.FORMAT_ABBREV_ALL).toString());
             holder.authorView.setText(
                     mCursor.getString(ArticleLoader.Query.AUTHOR));
+            //set observer to view
+            holder.thumbnailView.setResponseObserver(new DynamicHeightNetworkImageView.ResponseObserver() {
+
+                @Override
+                public void onSuccess(Bitmap bmp) {
+                    if (bmp != null) {
+                        Palette p = Palette.generate(bmp);
+                        int mMutedColor = p.getMutedColor(0xFF333333);
+                        holder.articleView.setCardBackgroundColor(mMutedColor);
+                    }
+                }
+            });
+            //and then load image
             holder.thumbnailView.setImageUrl(
                     mCursor.getString(ArticleLoader.Query.THUMB_URL),
                     ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
@@ -161,6 +177,7 @@ public class ArticleListActivity extends ActionBarActivity implements
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public CardView articleView;
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView dateView;
@@ -168,6 +185,7 @@ public class ArticleListActivity extends ActionBarActivity implements
 
         public ViewHolder(View view) {
             super(view);
+            articleView = (CardView) view.findViewById(R.id.article_view);
             thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
             dateView = (TextView) view.findViewById(R.id.article_date);
