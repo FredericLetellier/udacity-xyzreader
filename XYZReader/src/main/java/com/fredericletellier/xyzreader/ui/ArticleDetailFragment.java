@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
@@ -43,13 +44,10 @@ public class ArticleDetailFragment extends Fragment implements
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-    private ObservableScrollView mScrollView;
     private ColorDrawable mStatusBarColorDrawable;
+    private Toolbar mToolbar;
 
-    private int mTopInset;
-    private View mPhotoContainerView;
     private ImageView mPhotoView;
-    private int mScrollY;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -93,18 +91,7 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        mScrollView = (ObservableScrollView) mRootView.findViewById(R.id.scrollview);
-        mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
-            @Override
-            public void onScrollChanged() {
-                mScrollY = mScrollView.getScrollY();
-                mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
-                updateStatusBar();
-            }
-        });
-
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-        mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
@@ -115,6 +102,15 @@ public class ArticleDetailFragment extends Fragment implements
                         .setType("text/plain")
                         .setText("Some sample text")
                         .getIntent(), getString(R.string.action_share)));
+            }
+        });
+
+        mToolbar = (Toolbar) mRootView.findViewById(R.id.detail_toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 
