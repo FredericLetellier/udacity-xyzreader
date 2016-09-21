@@ -8,11 +8,10 @@ import com.android.volley.toolbox.NetworkImageView;
 
 public class DynamicHeightNetworkImageView extends NetworkImageView {
     private float mAspectRatio = 1.5f;
-    private int mErrorResId;
 
     public interface ResponseObserver
     {
-        public void onSuccess(Bitmap bm);
+        void onSuccess(Bitmap bm);
     }
 
     private ResponseObserver mObserver;
