@@ -1,9 +1,13 @@
 <resources>
     <!-- list -->
     <dimen name="appbar_max_size">112dp</dimen>
+    <integer name="list_column_count">2</integer>
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_toolbar_side_margin">0dp</dimen>
-    <integer name="list_column_count">2</integer>
+
+    <!-- cardview list -->
+    <dimen name="list_cardview_margin">4dp</dimen>
+    <dimen name="list_cardview_article_padding">16dp</dimen>
 
     <!-- detail -->
     <dimen name="material_layout_app_bar_height">320dp</dimen>
@@ -17,4 +21,5 @@
     <dimen name="detail_metabar_title_bottom_padding">4dp</dimen>
     <dimen name="detail_body_top_margin">16dp</dimen>
     <dimen name="detail_body_bottom_margin">88dp</dimen>
+
 </resources>
