@@ -2,4 +2,12 @@
 <resources>
     <!-- list -->
     <integer name="list_column_count">3</integer>
+    <!-- detail -->
+    <dimen name="material_layout_app_bar_height">600dp</dimen>
+    <dimen name="material_layout_app_bar_space_negative">-460dp</dimen>
+    <!-- cardview detail -->
+    <dimen name="detail_cardview_width">480dp</dimen>
+    <dimen name="detail_inner_horiz_margin">64dp</dimen>
+    <!-- FAB detail -->
+    <dimen name="detail_fab_margin">16dp</dimen>
 </resources>

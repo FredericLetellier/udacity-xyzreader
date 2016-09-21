@@ -3,4 +3,7 @@
     <integer name="list_column_count">5</integer>
     <dimen name="list_side_margin">64dp</dimen>
     <dimen name="list_toolbar_side_margin">56dp</dimen> <!-- minus 64 - 8 -->
+    <!-- cardview detail -->
+    <dimen name="detail_cardview_width">840dp</dimen>
+    <dimen name="detail_inner_horiz_margin">128dp</dimen>
 </resources>
